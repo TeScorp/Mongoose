@@ -1,0 +1,87 @@
+
+// Use model.findById() to search for a person by _id
+const userIdToSearch = "64d05f8df2952d94b1311e17";
+
+User.findById(userIdToSearch)
+  .then((user) => {
+    console.log("User found by ID:", user);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
+
+
+
+
+
+
+// Perform Classic Updates by Running Find, Edit, then Save
+const userIdToUpdate = "64d05f8df2952d94b1311e18";
+
+User.findById(userIdToUpdate, function (err, user) {
+  if (err) {
+    console.error(err);
+  } else {
+    user.favoriteFoods.push("Hamburger");
+    user.save(function (err, updatedUser) {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log("Updated user:", updatedUser);
+      }
+    });
+  }
+});
+
+// Perform New Updates on a Document Using model.findOneAndUpdate()
+const userNameToUpdate = "Modou";
+
+User.findOneAndUpdate(
+  { name: userNameToUpdate },
+  { age: 63 },
+  { new: true },
+  function (err, updatedUser) {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("Updated user by name:", updatedUser);
+    }
+  }
+);
+
+// Delete One Document Using model.findByIdAndRemove
+const userIdToDelete = "insertValidUserIdHere";
+
+User.findByIdAndRemove(userIdToDelete, function (err, removedUser) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log("Removed user:", removedUser);
+  }
+});
+
+// MongoDB and Mongoose - Delete Many Documents with model.remove()
+const nameToDelete = "Bob";
+
+User.remove({ name: nameToDelete }, function (err, result) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(
+      `Removed ${result.deletedCount} user with name "${nameToDelete}"`
+    );
+  }
+});
+
+// Chain Search Query Helpers to Narrow Search Results
+User.find({ favoriteFoods: "Mboum" })
+  .sort("name")
+  .limit(2)
+  .select("-age")
+  .exec(function (err, data) {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("Filtered and sorted results:", data);
+    }
+  });

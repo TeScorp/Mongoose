@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("./User");
 
-mongoose.connect("mongodb://localhost/mongodb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 // Create and Save a Record of a Model
 const newUser = new User({
   name: "Terra",
